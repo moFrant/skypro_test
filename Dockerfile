@@ -36,9 +36,7 @@ WORKDIR ${WORKDIR}
 
 COPY --from=build ${WHEELDIR} ${WHEELDIR}
 COPY --from=build ${WORKDIR}/get-pip.py ${WORKDIR}
-COPY test_task/ ${WORKDIR}
-COPY requirements.txt ${WORKDIR}
-COPY uwsgi.ini ${WORKDIR}
+COPY . ${WORKDIR}
 
 RUN python ${WORKDIR}/get-pip.py \
     && pip install -r ${WORKDIR}/requirements.txt --find-links=${WHEELDIR} \
