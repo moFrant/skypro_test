@@ -1,0 +1,32 @@
+version: "3.6"
+
+services:
+  test_task:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    container_name: test_task
+    networks:
+      test_task_network:
+        aliases:
+          - test_task
+    ports:
+      - "8000:8000"
+    command: sh -c 'python manage.py migrate && uwsgi --ini uwsgi.ini'
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    networks:
+      test_task_network:
+        aliases:
+          - nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
+
+networks:
+  test_task_network:
+    name: test_task_network
