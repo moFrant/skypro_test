@@ -1,7 +1,6 @@
 **/*
 !uwsgi.ini
 !requirements.txt
-!requirements_dev.txt
 !config
 !manage.py
 !wares
