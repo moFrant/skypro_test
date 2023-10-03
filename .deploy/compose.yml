@@ -6,6 +6,8 @@ services:
       context: ../
       dockerfile: Dockerfile
     container_name: test_task
+    environment:
+      - DJANGO_DEBUG=
     networks:
       test_task_network:
         aliases:

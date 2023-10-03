@@ -35,7 +35,6 @@ def test_create_models():
     order = Order()
     order.save()
     order.wares.add(wares)
-    order.save()
 
     assert Order.objects.count() == 1
     order = Order.objects.first()
@@ -58,7 +57,6 @@ def test_back_related():
     order = Order()
     order.save()
     order.wares.add(wares)
-    order.save()
 
     # Получение товаров по категории
     category = Category.objects.filter(name="Тестовая категория").first()
@@ -94,22 +92,18 @@ def test_statistics():
     order = Order(create_at=today)
     order.save()
     order.wares.add(wares)
-    order.save()
 
     order = Order(create_at=order_date_1)
     order.save()
     order.wares.add(wares)
-    order.save()
 
     order = Order(create_at=order_date_2)
     order.save()
     order.wares.add(wares)
-    order.save()
 
     order = Order(create_at=order_date_3)
     order.save()
     order.wares.add(wares)
-    order.save()
 
     wares = Wares.objects.filter(name="Тестовый товар").first()
     assert wares.orders.all().count() == 4
