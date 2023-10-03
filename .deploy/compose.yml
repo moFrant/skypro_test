@@ -1,0 +1,41 @@
+version: "3.6"
+
+services:
+  test_task:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    container_name: test_task
+    environment:
+      - DJANGO_DEBUG=
+    networks:
+      test_task_network:
+        aliases:
+          - test_task
+    ports:
+      - "8000:8000"
+    volumes:
+      - test_task_static:/skypro/test_task/static
+    command: sh -c 'uwsgi --ini uwsgi.ini'
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    networks:
+      test_task_network:
+        aliases:
+          - nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
+      - test_task_static:/skypro/test_task/static
+
+networks:
+  test_task_network:
+    name: test_task_network
+
+volumes:
+  test_task_static:
+    name: test_task_static

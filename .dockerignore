@@ -1,0 +1,6 @@
+**/*
+!uwsgi.ini
+!requirements.txt
+!config
+!manage.py
+!wares
