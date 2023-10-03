@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from wares.models import Wares
+
+
+class WareListView(ListView):
+    """Список товаров"""
+
+    model = Wares
+    template_name = 'main.htm'

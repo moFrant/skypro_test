@@ -14,7 +14,7 @@ services:
       - "8000:8000"
     volumes:
       - test_task_static:/skypro/test_task/static
-    command: sh -c 'python manage.py migrate && uwsgi --ini uwsgi.ini'
+    command: sh -c 'uwsgi --ini uwsgi.ini'
 
   nginx:
     image: nginx:latest

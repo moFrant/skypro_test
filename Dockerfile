@@ -44,5 +44,6 @@ RUN python ${WORKDIR}/get-pip.py \
 
 RUN mkdir -p ${WORKDIR}/static
 RUN python manage.py collectstatic --no-input
+RUN python manage.py migrate
 
 CMD uwsgi --ini uwsgi.ini
