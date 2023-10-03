@@ -1,7 +1,9 @@
 """Тестирование моделей для работы с товарами."""
 from datetime import date
+from freezegun import freeze_time
 
 import pytest
+from dateutil.relativedelta import relativedelta
 
 from wares.models import Category, Wares, Order
 
@@ -70,3 +72,46 @@ def test_back_related():
     assert orders.count() == 1
     order = orders.first()
     assert order.create_at == date.today()
+
+
+@freeze_time("2023-10-3")
+@pytest.mark.django_db
+def test_statistics():
+    """Проверка статистики заказов."""
+
+    today = date.today()
+    order_date_1 = today - relativedelta(days=3)
+    order_date_2 = today - relativedelta(days=10)
+    order_date_3 = today - relativedelta(days=100)
+
+    category = Category(name="Тестовая категория")
+    category.save()
+    wares = Wares(name="Тестовый товар",
+                  category=category,
+                  price=100.00)
+    wares.save()
+
+    order = Order(create_at=today)
+    order.save()
+    order.wares.add(wares)
+    order.save()
+
+    order = Order(create_at=order_date_1)
+    order.save()
+    order.wares.add(wares)
+    order.save()
+
+    order = Order(create_at=order_date_2)
+    order.save()
+    order.wares.add(wares)
+    order.save()
+
+    order = Order(create_at=order_date_3)
+    order.save()
+    order.wares.add(wares)
+    order.save()
+
+    wares = Wares.objects.filter(name="Тестовый товар").first()
+    assert wares.orders.all().count() == 4
+    assert wares.monthly_statistics == 3
+    assert wares.statistics_for_current_month == 1

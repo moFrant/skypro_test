@@ -6,8 +6,39 @@
   {% bootstrap_javascript %}
 </head>
 <body>
-{% for object in object_list %}
-<h2>{{ object }}</h2>
-{% endfor %}
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Название товара</th>
+      <th scope="col">Категория</th>
+      <th scope="col">Статус активности</th>
+      <th scope="col">Цена</th>
+      <th scope="col">Количество заказов за прошлый месяц от текущего</th>
+      <th scope="col">Количество заказов за текущий месяц, начиная с 1 дня месяца</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for object in object_list %}
+    <tr>
+      <th scope="row">{{ object.pk }}</th>
+      <td>{{ object.name }}</td>
+      <td>{{ object.category.name }}</td>
+
+      {% if object.is_active %}
+        <td>Активен</td>
+        {% else %}
+        <td>Не активен</td>
+      {% endif %}
+
+      <td>{{ object.price }}</td>
+      <td>{{ object.monthly_statistics }}</td>
+      <td>{{ object.statistics_for_current_month }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
 </body>
 </html>
