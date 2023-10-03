@@ -12,6 +12,8 @@ services:
           - test_task
     ports:
       - "8000:8000"
+    volumes:
+      - test_task_static:/skypro/test_task/static
     command: sh -c 'python manage.py migrate && uwsgi --ini uwsgi.ini'
 
   nginx:
@@ -26,7 +28,12 @@ services:
       - "80:80"
     volumes:
       - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
+      - test_task_static:/skypro/test_task/static
 
 networks:
   test_task_network:
     name: test_task_network
+
+volumes:
+  test_task_static:
+    name: test_task_static

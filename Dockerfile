@@ -42,4 +42,7 @@ RUN python ${WORKDIR}/get-pip.py \
     && pip install -r ${WORKDIR}/requirements.txt --find-links=${WHEELDIR} \
     && rm -rf .cache/pip
 
+RUN mkdir -p ${WORKDIR}/static
+RUN python manage.py collectstatic --no-input
+
 CMD uwsgi --ini uwsgi.ini
