@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 django = "*"
 uwsgi = "*"
+django-bootstrap-v5 = "*"
 
 [dev-packages]
 pytest = "*"
